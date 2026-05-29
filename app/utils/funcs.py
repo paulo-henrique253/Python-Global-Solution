@@ -1,0 +1,75 @@
+import data
+import sys
+import os
+
+sys.path.append(
+    os.path.abspath("./app")
+)
+from models.empresa import Empresa
+from models.satelite import Satelite
+
+# Pegar uma empresa cadastrada pelo nome
+def obter_empresa(nome_empresa: str) -> Empresa:
+    # Percorrer a lista
+    for empresa in data.empresas:
+        if empresa.nome == nome_empresa:
+            return empresa #caso ache uma empresa com esse nome, retorna ela
+    return None # Se não encontrar, retorna nulo
+
+
+def consultar_empresa() -> None:
+    nome_empresa = input("Nome: ")
+
+    empresa = obter_empresa(nome_empresa)
+    if empresa == None:
+        print("Empresa não existe")
+    else:
+        print(f"{empresa.nome} - {empresa.pontos}")
+
+# Cadastrar uma empresa
+def cadastrar_empresa() -> None:
+    nome_empresa = input("Nome: ")
+    # Forçar o input de uma empresa válida
+    while nome_empresa == "" or obter_empresa(nome_empresa) != None:
+        if nome_empresa == "":
+            print("ERRO!!! Insira um nome")
+        else:
+            print("ERRO!!! empresa ja cadastrada")
+        nome_empresa = input("Nome: ")
+
+    pais_empresa = input("Pais: ")
+
+    while pais_empresa == "":
+        print("ERRO!!! Insira uma empresa")
+        pais_empresa = input("Pais: ")
+    
+    num_satelites = input("numero de Satelites: ")
+    sat_valido = True if num_satelites.isnumeric() and int(num_satelites) >= 0 else False
+    while not sat_valido:
+        num_satelites = input("numero de Satelites: ")
+        sat_valido = True if num_satelites.isnumeric() and int(num_satelites) >= 0 else False
+    
+    doc_empresa = input("Documentaçao: ")
+    # verificar_doc(doc_empresa)
+    data.adicionar_empresa(nome_empresa, pais_empresa, int(num_satelites), doc_empresa)
+
+
+def cadastrar_satelite() -> None:
+    nome_satelite = input("Nome: ")
+    while nome_satelite == "":
+        print("ERRO!!! Insira um nome")
+        nome_satelite = input("Nome: ")
+    
+    nome_empresa = input("Empresa: ")
+
+    while obter_empresa(nome_empresa) == None:
+        print("ERRO!!! Insira uma empresa cadastrada")
+        nome_empresa = input("Empresa: ")
+    
+    orbita = input("Orbita: ")
+    #if not eh_orbita
+
+    status = input("status: ")
+
+    data.adicionar_satelite(nome_satelite, nome_empresa, orbita, status)
+
