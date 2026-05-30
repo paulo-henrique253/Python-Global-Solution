@@ -27,3 +27,6 @@ adicionar_empresa("Zeni", "Brasil", 2, "")
 empresas[1].pontos = 30
 empresas[2].pontos = 67
 empresas[0].pontos = 40
+
+adicionar_satelite("Zeni-télite 1", "Zeni", "Ali", "Voando")
+adicionar_satelite("Zeni-télite 2", "Zeni", "lá", "orbitando")

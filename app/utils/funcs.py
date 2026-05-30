@@ -23,8 +23,16 @@ def consultar_empresa() -> None:
     empresa = obter_empresa(nome_empresa)
     if empresa == None:
         print("Empresa não existe")
-    else:
-        print(f"{empresa.nome} - {empresa.pontos}")
+        return
+    print(f"{empresa.nome} - {empresa.pontos}")
+    resp = input("Gostaria de ver os satélites registrados(s/n): ").lower()
+    if resp == 's' or resp == "sim":
+        if len(empresa.satelites) == 0:
+            print("Essa empresa não tem satélites cadastrados!")
+            return
+        for satelite in empresa.satelites:
+            print(f"{satelite.nome} - Status: {satelite.status}")
+        
 
 # Cadastrar uma empresa
 def cadastrar_empresa() -> None:
@@ -105,8 +113,13 @@ def ranking_score() -> None:
                 "nome": empresa.nome,
                 "pts" : empresa.pontos
             }
-    print(m1)
-    print(m2)
-    print(m3)
+    if (m1['nome'] != ""):
+        print(f"1. {m1['nome']} - {m1["pts"]}")
 
+    if (m2['nome'] != ""):
+        print(f"2. {m2['nome']} - {m2["pts"]}")
 
+    if (m3['nome'] != ""):
+        print(f"3. {m3['nome']} - {m3["pts"]}")
+
+consultar_empresa()
