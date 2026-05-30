@@ -1,10 +1,10 @@
-import data
 import sys
 import os
 
 sys.path.append(
     os.path.abspath("./app")
 )
+import utils.data as data
 from models.empresa import Empresa
 from models.satelite import Satelite
 
@@ -121,5 +121,3 @@ def ranking_score() -> None:
 
     if (m3['nome'] != ""):
         print(f"3. {m3['nome']} - {m3["pts"]}")
-
-consultar_empresa()
