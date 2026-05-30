@@ -16,6 +16,6 @@ while True:
         case '2' : funcs.cadastrar_satelite()
         case '3' : funcs.consultar_empresa()
         case '4' : funcs.ranking_score()
-        case '5' : funcs.registro_geral()
+        case '5' : funcs.relatorio_geral()
         case '0' : break
         case _: print("Opção Inválida!!!")

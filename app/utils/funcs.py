@@ -121,3 +121,16 @@ def ranking_score() -> None:
 
     if (m3['nome'] != ""):
         print(f"3. {m3['nome']} - {m3["pts"]}")
+
+
+def relatorio_geral()-> None:
+    num_empresas = len(data.empresas)
+    num_sat = 0
+    empresas_sus = 0
+    for empresa in data.empresas:
+        num_sat += empresa.num_satelites
+        if empresa.pontos <= 50:
+            empresas_sus +=1
+    print(f"Numero de empresas: {num_empresas}")
+    print(f"Numero de satelites: {num_sat}")
+    print(f"Empresas suspeitas: {empresas_sus}")
