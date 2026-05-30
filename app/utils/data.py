@@ -17,3 +17,13 @@ def adicionar_satelite(nome: str, nome_empresa: str, orbita: str, status: str) -
     for empresa in empresas:
         if empresa.nome == satelite.empresa:
             empresa.satelites.append(satelite)
+
+
+adicionar_empresa("SpaceX", "States", 67, "")
+
+adicionar_empresa("Goon space", "Br", 69, "")
+
+adicionar_empresa("Zeni", "Brasil", 2, "")
+empresas[1].pontos = 30
+empresas[2].pontos = 67
+empresas[0].pontos = 40

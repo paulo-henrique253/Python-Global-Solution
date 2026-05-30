@@ -73,3 +73,40 @@ def cadastrar_satelite() -> None:
 
     data.adicionar_satelite(nome_satelite, nome_empresa, orbita, status)
 
+def ranking_score() -> None:
+    m1 = {
+        "nome": "",
+        "pts": -1 
+    }
+    m2 = {
+        "nome": "",
+        "pts": -1 
+    }
+    m3 = {
+        "nome": "",
+        "pts": -1 
+    }
+    for empresa in data.empresas:
+        if empresa.pontos > m1["pts"]:
+            m3 = m2.copy()
+            m2 = m1.copy()
+            m1 = {
+                "nome": empresa.nome,
+                "pts" : empresa.pontos
+            }
+        elif empresa.pontos > m2["pts"]:
+            m3 = m2.copy()
+            m2 = {
+                "nome": empresa.nome,
+                "pts" : empresa.pontos
+            }
+        elif empresa.pontos > m3["pts"]:
+            m3 = {
+                "nome": empresa.nome,
+                "pts" : empresa.pontos
+            }
+    print(m1)
+    print(m2)
+    print(m3)
+
+
