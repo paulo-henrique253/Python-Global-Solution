@@ -24,9 +24,9 @@ adicionar_empresa("SpaceX", "States", 67, "")
 adicionar_empresa("Goon space", "Br", 69, "")
 
 adicionar_empresa("Zeni", "Brasil", 2, "")
-empresas[1].pontos = 30
-empresas[2].pontos = 67
-empresas[0].pontos = 40
+empresas[1].score = 30
+empresas[2].score = 67
+empresas[0].score = 40
 
 adicionar_satelite("Zeni-télite 1", "Zeni", "Ali", "Voando")
 adicionar_satelite("Zeni-télite 2", "Zeni", "lá", "orbitando")

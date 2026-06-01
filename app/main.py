@@ -8,6 +8,8 @@ while True:
     print("3. Consultar empresa")
     print("4. Top 3 empresas")
     print("5. Registro geral")
+    print("6. bonificar empresa")
+    print("7. penalizar empresa")
     print("\t0 - Sair")
 
     escolha = input("Input:")
@@ -17,5 +19,7 @@ while True:
         case '3' : funcs.consultar_empresa()
         case '4' : funcs.ranking_score()
         case '5' : funcs.relatorio_geral()
+        case '6' : funcs.bonificar_empresa()
+        case '7' : funcs.penalizar_empresa()
         case '0' : break
         case _: print("Opção Inválida!!!")

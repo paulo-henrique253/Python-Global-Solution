@@ -12,10 +12,14 @@ from models.satelite import Satelite
 def obter_empresa(nome_empresa: str) -> Empresa:
     # Percorrer a lista
     for empresa in data.empresas:
-        if empresa.nome == nome_empresa:
+        if empresa.nome.lower() == nome_empresa.lower():
             return empresa #caso ache uma empresa com esse nome, retorna ela
     return None # Se não encontrar, retorna nulo
 
+def mudar_pontos(empresa: Empresa, pontos: int) -> None:
+    empresa.score += pontos
+    if empresa.score < 0: empresa.score = 0
+    if empresa.score > 100: empresa.score = 100    
 
 def consultar_empresa() -> None:
     nome_empresa = input("Nome: ")
@@ -134,3 +138,108 @@ def relatorio_geral()-> None:
     print(f"Numero de empresas: {num_empresas}")
     print(f"Numero de satelites: {num_sat}")
     print(f"Empresas suspeitas: {empresas_sus}")
+
+def penalizar_empresa()-> None:
+    empresa = input("empresa: ")
+
+    while obter_empresa(empresa) == None:
+        print("ERRO!!! empresa não existe")
+        empresa = input("Empresa: ")
+    
+    pontos = 0
+    while True:
+        print("1. Alto risco de colisao                   - 15pts")
+        print("2. Geração de lixo espacial                - 15pts")
+        print("3. Satelite sem plano de desorbitação      - 15pts")
+        print("4. Registro orbital irregular              - 20pts")
+        print("5. Falta de transparência                  - 25pts")
+        print("6. Geração de fragmentos orbitais          - 20pts")
+        print("7. Descumprimento regulatório              - 40pts")
+        print("8. Uso suspeito da infraestrutura espacial - 40pts")
+        print("9. Satelite inativo em órbita              - 10pts")
+        escolha = input("Escolha: ")
+        match escolha:
+            case '1': 
+                pontos = -15
+                break
+            case '2': 
+                pontos = -15
+                break
+            case '3': 
+                pontos = -15
+                break
+            case '4': 
+                pontos = -20
+                break
+            case '5': 
+                pontos = -25
+                break
+            case '6': 
+                pontos = -20
+                break
+            case '7': 
+                pontos = -40
+                break
+            case '8': 
+                pontos = -40
+                break
+            case '9': 
+                pontos = -10
+                break
+            case _: print("Opçao invalida")
+    empresa_obj = obter_empresa(empresa)
+    mudar_pontos(empresa_obj, pontos)
+    print(f"A empresa {empresa} perdeu {abs(pontos)} pontos. Agora tem {empresa_obj.score}")
+
+
+def bonificar_empresa()-> None:
+    empresa = input("empresa: ")
+
+    while obter_empresa(empresa) == None:
+        print("ERRO!!! empresa não existe")
+        empresa = input("Empresa: ")
+    
+    pontos = 0
+    while True:
+        print("1. Desorbitação resonsável                - 20pts")
+        print("2. Baixo risco de colisão                 - 15pts")
+        print("3. Satélite ativo e regularizado          - 10pts")
+        print("4. Plano de mitigação aprovado            - 25pts")
+        print("5. Baixa geração de lixo espacial         - 20pts")
+        print("6. Registro orbital regular               - 10pts")
+        print("7. Transparencia de dados                 - 15pts")
+        print("8. Participação em iniciativa sustentável - 30pts")
+        print("9. Conformidade regulatória               - 10pts")
+        escolha = input("Escolha: ")
+        match escolha:
+            case '1': 
+                pontos = 20
+                break
+            case '2': 
+                pontos = 15
+                break
+            case '3': 
+                pontos = 10
+                break
+            case '4': 
+                pontos = 25
+                break
+            case '5': 
+                pontos = 20
+                break
+            case '6': 
+                pontos = 10
+                break
+            case '7': 
+                pontos = 15
+                break
+            case '8': 
+                pontos = 30
+                break
+            case '9': 
+                pontos = 10
+                break
+            case _: print("Opçao invalida")
+    empresa_obj = obter_empresa(empresa)
+    mudar_pontos(empresa_obj , pontos)
+    print(f"A empresa {empresa} ganhou {pontos} pontos. Agora tem {empresa_obj.score} pontos")
