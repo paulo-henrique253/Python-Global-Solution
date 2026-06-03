@@ -28,7 +28,7 @@ def consultar_empresa() -> None:
     if empresa == None:
         print("Empresa não existe")
         return
-    print(f"{empresa.nome} - {empresa.pontos}")
+    print(f"{empresa.nome} - {empresa.score}")
     resp = input("Gostaria de ver os satélites registrados(s/n): ").lower()
     if resp == 's' or resp == "sim":
         if len(empresa.satelites) == 0:
@@ -99,23 +99,23 @@ def ranking_score() -> None:
         "pts": -1 
     }
     for empresa in data.empresas:
-        if empresa.pontos > m1["pts"]:
+        if empresa.score > m1["pts"]:
             m3 = m2.copy()
             m2 = m1.copy()
             m1 = {
                 "nome": empresa.nome,
-                "pts" : empresa.pontos
+                "pts" : empresa.score
             }
-        elif empresa.pontos > m2["pts"]:
+        elif empresa.score > m2["pts"]:
             m3 = m2.copy()
             m2 = {
                 "nome": empresa.nome,
-                "pts" : empresa.pontos
+                "pts" : empresa.score
             }
-        elif empresa.pontos > m3["pts"]:
+        elif empresa.score > m3["pts"]:
             m3 = {
                 "nome": empresa.nome,
-                "pts" : empresa.pontos
+                "pts" : empresa.score
             }
     if (m1['nome'] != ""):
         print(f"1. {m1['nome']} - {m1["pts"]}")
@@ -133,7 +133,7 @@ def relatorio_geral()-> None:
     empresas_sus = 0
     for empresa in data.empresas:
         num_sat += empresa.num_satelites
-        if empresa.pontos <= 50:
+        if empresa.score <= 50:
             empresas_sus +=1
     print(f"Numero de empresas: {num_empresas}")
     print(f"Numero de satelites: {num_sat}")
