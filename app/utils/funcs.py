@@ -243,3 +243,16 @@ def bonificar_empresa()-> None:
     empresa_obj = obter_empresa(empresa)
     mudar_pontos(empresa_obj , pontos)
     print(f"A empresa {empresa} ganhou {pontos} pontos. Agora tem {empresa_obj.score} pontos")
+
+
+def descricao_solucao() -> None:
+    print("""
+===== CONHEÇA A ORBITS =====
+          
+          blablablablablablabla
+          blablablablablablabla
+          blablablablablablabla
+          blablablablablablabla
+          blablablablablablabla
+          
+          """)
