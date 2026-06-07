@@ -41,6 +41,33 @@ def mudar_pontos(empresa: Empresa, pontos: int) -> None:
     if empresa.score > 100: empresa.score = 100    
 
 
+#Procedimento para mostrar as empresas cadastradas
+def exibir_empresas() -> None:
+
+    #input para resposta
+    resp = input("Gostaria de ver os satélites também?(s/n): ").lower()
+    lista_empresas = [empresa.nome for empresa in data.empresas]
+
+    lista_empresas.sort()
+
+    for empresa_nome in lista_empresas:
+        empresa = obter_empresa(empresa_nome)
+
+        print(f"{empresa.nome:-^12}: {empresa.score} pontos | Pais: {empresa.pais}")
+        if resp == 's' or resp == "sim":
+            if len(empresa.satelites) == 0: continue
+            print(f"====================Satélites====================")
+            for satelite in empresa.satelites:
+                print(f"\t{satelite.nome:>21} | Tipo de órbita: {satelite.orbita.value:15} | Status: {satelite.status}")
+            print()
+
+
+
+
+
+        
+
+
 #procedimento para permitir que o usuário encontre uma empresa e veja suas informações
 def consultar_empresa() -> None:
     #Pega o input do usuário

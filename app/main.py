@@ -28,5 +28,7 @@ while True:
         case '6' : funcs.relatorio_geral()
         case '7' : funcs.bonificar_empresa()
         case '8' : funcs.penalizar_empresa()
-        case '0' : break
+        case '0' :
+            funcs.exibir_empresas() 
+            break
         case _: print("Opção Inválida!!!")
