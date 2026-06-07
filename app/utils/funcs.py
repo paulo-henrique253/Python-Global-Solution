@@ -46,19 +46,32 @@ def exibir_empresas() -> None:
 
     #input para resposta
     resp = input("Gostaria de ver os satélites também?(s/n): ").lower()
+
+    #copia a lista com os nomes das empresas
     lista_empresas = [empresa.nome for empresa in data.empresas]
 
+    #ordena a lista
     lista_empresas.sort()
 
+    #percorre a lista
     for empresa_nome in lista_empresas:
+        #obtem o objeto empresa para cada nome
         empresa = obter_empresa(empresa_nome)
 
+        #Exibe as informações da empresa
         print(f"{empresa.nome:-^12}: {empresa.score} pontos | Pais: {empresa.pais}")
         if resp == 's' or resp == "sim":
+            #se a empresa nao tem satélites, prosseguir
             if len(empresa.satelites) == 0: continue
+
+
             print(f"====================Satélites====================")
+
+            #percorre a lista de satélites
             for satelite in empresa.satelites:
+                #exibe cada satélite
                 print(f"\t{satelite.nome:>21} | Tipo de órbita: {satelite.orbita.value:15} | Status: {satelite.status}")
+            #pula uma linha depois dos satélites
             print()
 
 

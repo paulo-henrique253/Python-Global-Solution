@@ -11,8 +11,9 @@ while True:
           4. Consultar empresa
           5. Top 3 empresas
           6. Registro geral
-          7. Bonificar empresa
-          8. Penalizar empresa
+          7. Ver empresas cadastradas
+          8. Bonificar empresa
+          9. Penalizar empresa
           -----------------------
           0. Sair
           
@@ -26,9 +27,8 @@ while True:
         case '4' : funcs.consultar_empresa()
         case '5' : funcs.ranking_score()
         case '6' : funcs.relatorio_geral()
-        case '7' : funcs.bonificar_empresa()
-        case '8' : funcs.penalizar_empresa()
-        case '0' :
-            funcs.exibir_empresas() 
-            break
+        case '7' : funcs.exibir_empresas()
+        case '8' : funcs.bonificar_empresa()
+        case '9' : funcs.penalizar_empresa()
+        case '0' : break
         case _: print("Opção Inválida!!!")
