@@ -8,6 +8,7 @@ import utils.data as data
 from models.empresa import Empresa
 from models.satelite import TipoOrbita
 from models.satelite import StatusOperacao
+from models.satelite import Satelite
 
 #Funcao para pegar uma empresa cadastrada pelo nome
 def obter_empresa(nome_empresa: str) -> Empresa:
@@ -16,6 +17,20 @@ def obter_empresa(nome_empresa: str) -> Empresa:
         if empresa.nome.lower() == nome_empresa.lower():
             return empresa #caso ache uma empresa com esse nome, retorna ela
     return None # Se não encontrar, retorna None
+
+#obter um satélite de uma empresa
+def obter_satelite(nome_satelite: str, nome_empresa: str) -> Satelite:
+    #Obter o objeto empresa
+    empresa = obter_empresa(nome_empresa)
+
+    #percorrer a lista
+    for satelite in empresa.satelites:
+
+        #se o nome do satélite for o nome passado como parametro, retorna o objeto
+        if satelite.nome.lower() == nome_satelite.lower():
+            return satelite
+    return None # se não encontrar nada
+
 
 #procedimento para alterar os pontos de uma empresa de forma segura
 def mudar_pontos(empresa: Empresa, pontos: int) -> None:
@@ -40,7 +55,7 @@ def consultar_empresa() -> None:
         return #Interrompe o procedimento
     
     #Exibe o nome e os pontos da empresa
-    print(f"{empresa.nome} - {empresa.score}")
+    print(f"{empresa.nome} - score: {empresa.score}")
 
     #Obtem a resposto usuário 
     resp = input("Gostaria de ver os satélites registrados(s/n): ").lower()
@@ -97,14 +112,6 @@ def eh_status(info) -> bool:
 #Procedimento para cadastrar satélite
 def cadastrar_satelite() -> None:
 
-    #input para o nome do satélite
-    nome_satelite = input("Nome: ")
-
-    #força o nome a ser diferente de uma string vazia
-    while nome_satelite == "":
-        print("ERRO!!! Insira um nome")
-        nome_satelite = input("Nome: ")
-    
     #input para a empresa do satélite
     nome_empresa = input("Empresa: ")
 
@@ -112,6 +119,19 @@ def cadastrar_satelite() -> None:
     while obter_empresa(nome_empresa) == None:
         print("ERRO!!! Insira uma empresa cadastrada")
         nome_empresa = input("Empresa: ")
+
+    #input para o nome do satélite
+    nome_satelite = input("Nome: ")
+
+    #força o nome a ser diferente de uma string vazia
+    while nome_satelite == "" or obter_satelite(nome_satelite, nome_empresa) != None:
+        if nome_satelite == "":
+            print("ERRO!!! Insira um nome")
+        else:
+            print("ERRO!!! Satélite já cadastrado nessa emrpesa!")
+        nome_satelite = input("Nome: ")
+    
+    
     
     #Declara a variavel da orbita
     orbita_satelite = ""
@@ -124,7 +144,7 @@ def cadastrar_satelite() -> None:
             print('\n' + orb.value, end="")
         print()
         #obtem o input da orbita
-        orbita_satelite = input("Órbita(insira o valor completo): ")
+        orbita_satelite = input("Órbita(insira o valor completo): ").lower()
     
     #Declara a variavel do status
     status_satelite = ""
@@ -137,7 +157,7 @@ def cadastrar_satelite() -> None:
             print( '\n' + status.value, end="")
         print()
         #obtem o input do status
-        status_satelite = input("Status(Insira o valor completo): ")
+        status_satelite = input("Status(Insira o valor completo): ").lower()
 
     #adiciona o satelite na lista
     data.adicionar_satelite(nome_satelite, nome_empresa, orbita_satelite, status_satelite)

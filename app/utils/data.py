@@ -17,7 +17,8 @@ def adicionar_empresa(nome: str, pais: str) -> None:
 def adicionar_satelite(nome: str, nome_empresa: str, orbita: sat.TipoOrbita, status: sat.StatusOperacao) -> None:
     satelite = sat.Satelite(nome, nome_empresa, orbita, status)
     for empresa in empresas:
-        if empresa.nome == satelite.empresa:
+        if empresa.nome.lower() == satelite.empresa.lower():
+            satelite.empresa = empresa.nome
             empresa.satelites.append(satelite)
             return
     print("ERRO!!! EMPRESA NÃO ENCONTRADA!!!")
