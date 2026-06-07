@@ -186,15 +186,15 @@ def ranking_score() -> None:
     
     #se não for vazio, exibe na tela
     if (m1['Nome'] != ""):
-        print(f"1. {m1['Nome']} - {m1["pts"]}")
+        print(f"1. {m1['Nome']} - {m1['pts']}")
 
     #se não for vazio, exibe na tela
     if (m2['Nome'] != ""):
-        print(f"2. {m2['Nome']} - {m2["pts"]}")
+        print(f"2. {m2['Nome']} - {m2['pts']}")
 
     #se não for vazio, exibe na tela
     if (m3['Nome'] != ""):
-        print(f"3. {m3['Nome']} - {m3["pts"]}")
+        print(f"3. {m3['Nome']} - {m3['pts']}")
 
 
 #procedimento para mostrar informacoes gerais
