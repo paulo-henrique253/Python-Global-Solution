@@ -296,16 +296,18 @@ def bonificar_empresa()-> None:
     pontos = 0
     while True:
         #exibe as opções na tela
-        print("1. Desorbitação resonsável                - 20pts")
-        print("2. Baixo risco de colisão                 - 15pts")
-        print("3. Satélite ativo e regularizado          - 10pts")
-        print("4. Plano de mitigação aprovado            - 25pts")
-        print("5. Baixa geração de lixo espacial         - 20pts")
-        print("6. Registro orbital regular               - 10pts")
-        print("7. Transparencia de dados                 - 15pts")
-        print("8. Participação em iniciativa sustentável - 30pts")
-        print("9. Conformidade regulatória               - 10pts")
-        
+        print("""
+                1. Desorbitação resonsável                - 20pts
+                2. Baixo risco de colisão                 - 15pts
+                3. Satélite ativo e regularizado          - 10pts
+                4. Plano de mitigação aprovado            - 25pts
+                5. Baixa geração de lixo espacial         - 20pts
+                6. Registro orbital regular               - 10pts
+                7. Transparencia de dados                 - 15pts
+                8. Participação em iniciativa sustentável - 30pts
+                9. Conformidade regulatória               - 10pts
+            """)
+
         #obtem a escolha do usuário
         escolha = input("Escolha: ")
 
