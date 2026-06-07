@@ -24,14 +24,14 @@ def adicionar_satelite(nome: str, nome_empresa: str, orbita: sat.TipoOrbita, sta
     
 
 
-adicionar_empresa("SpaceX", "States")
+adicionar_empresa("SpaceX", "EUA")
 
-adicionar_empresa("Goon space", "Br")
+adicionar_empresa("AstroScale", "JP")
 
-adicionar_empresa("Zeni", "Brasil")
+adicionar_empresa("NASA", "EUA")
 empresas[1].score = 30
 empresas[2].score = 67
 empresas[0].score = 40
 
-adicionar_satelite("Zeni-télite 1", "Zeni", "Ali", "Voando")
-adicionar_satelite("Zeni-télite 2", "Zeni", "lá", "orbitando")
+adicionar_satelite("ORBITS-12352", "NASA", "MEO", "Ativo")
+adicionar_satelite("Stratlink-2367", "SpaceX", "LEO", "Ativo")
