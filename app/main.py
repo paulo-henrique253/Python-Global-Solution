@@ -11,8 +11,8 @@ while True:
           4. Consultar empresa
           5. Top 3 empresas
           6. Registro geral
-          7. bonificar empresa
-          8. penalizar empresa
+          7. Bonificar empresa
+          8. Penalizar empresa
           -----------------------
           0. Sair
           

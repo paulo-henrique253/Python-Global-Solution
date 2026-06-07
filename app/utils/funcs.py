@@ -65,7 +65,7 @@ def cadastrar_empresa() -> None:
         if nome_empresa == "":
             print("ERRO!!! Insira um nome")
         else:
-            print("ERRO!!! empresa ja cadastrada")
+            print("ERRO!!! Empresa ja cadastrada")
         nome_empresa = input("Nome: ")
 
     #input do pais
@@ -73,7 +73,7 @@ def cadastrar_empresa() -> None:
 
     #Força o input de um pais não nulo
     while pais_empresa == "":
-        print("ERRO!!! Insira uma empresa")
+        print("ERRO!!! Insira um país")
         pais_empresa = input("Pais: ")
     
     #adiciona a empresa com as informacoes
@@ -119,12 +119,12 @@ def cadastrar_satelite() -> None:
     #até o usuário digitar uma órbita válida..
     while not eh_orbita(orbita_satelite):
         #mostra as órbitas na tela
-        print("\ninsira o tipo de órbita(uma dentre as seguintes)")
+        print("\nInsira o tipo de órbita(uma dentre as seguintes)")
         for orb in TipoOrbita:
             print('\n' + orb.value, end="")
         print()
         #obtem o input da orbita
-        orbita_satelite = input("Orbita(insira o valor completo): ")
+        orbita_satelite = input("Órbita(insira o valor completo): ")
     
     #Declara a variavel do status
     status_satelite = ""
@@ -132,12 +132,12 @@ def cadastrar_satelite() -> None:
     #até o usuário digitar um status valido...
     while not eh_status(status_satelite):
         #mostra os status na tela
-        print("insira o tipo de status:")
+        print("Insira o tipo de status:")
         for status in StatusOperacao:
             print( '\n' + status.value, end="")
         print()
         #obtem o input do status
-        status_satelite = input("Status(insira o valor completo): ")
+        status_satelite = input("Status(Insira o valor completo): ")
 
     #adiciona o satelite na lista
     data.adicionar_satelite(nome_satelite, nome_empresa, orbita_satelite, status_satelite)
@@ -146,15 +146,15 @@ def cadastrar_satelite() -> None:
 def ranking_score() -> None:
     #Declara 3 objetos que guardaram as 3 maiores informações
     m1 = {
-        "nome": "",
+        "Nome": "",
         "pts": -1 
     }
     m2 = {
-        "nome": "",
+        "Nome": "",
         "pts": -1 
     }
     m3 = {
-        "nome": "",
+        "Nome": "",
         "pts": -1 
     }
     #percorre a lista de empresas
@@ -166,7 +166,7 @@ def ranking_score() -> None:
             m3 = m2.copy()
             m2 = m1.copy()
             m1 = {
-                "nome": empresa.nome,
+                "Nome": empresa.nome,
                 "pts" : empresa.score
             }
         #Se não, verifica se é maior que m2, e se sim,
@@ -174,27 +174,27 @@ def ranking_score() -> None:
         elif empresa.score > m2["pts"]:
             m3 = m2.copy()
             m2 = {
-                "nome": empresa.nome,
+                "Nome": empresa.nome,
                 "pts" : empresa.score
             }
         #se não, verifica se é maior que me, e se for, guarda as informacoes em m3
         elif empresa.score > m3["pts"]:
             m3 = {
-                "nome": empresa.nome,
+                "Nome": empresa.nome,
                 "pts" : empresa.score
             }
     
     #se não for vazio, exibe na tela
-    if (m1['nome'] != ""):
-        print(f"1. {m1['nome']} - {m1["pts"]}")
+    if (m1['Nome'] != ""):
+        print(f"1. {m1['Nome']} - {m1["pts"]}")
 
     #se não for vazio, exibe na tela
-    if (m2['nome'] != ""):
-        print(f"2. {m2['nome']} - {m2["pts"]}")
+    if (m2['Nome'] != ""):
+        print(f"2. {m2['Nome']} - {m2["pts"]}")
 
     #se não for vazio, exibe na tela
-    if (m3['nome'] != ""):
-        print(f"3. {m3['nome']} - {m3["pts"]}")
+    if (m3['Nome'] != ""):
+        print(f"3. {m3['Nome']} - {m3["pts"]}")
 
 
 #procedimento para mostrar informacoes gerais
@@ -214,18 +214,18 @@ def relatorio_geral()-> None:
             empresas_sus +=1
 
     #Exibe as informações
-    print(f"Numero de empresas: {num_empresas}")
-    print(f"Numero de satelites: {num_sat}")
+    print(f"Número de empresas: {num_empresas}")
+    print(f"Número de satelites: {num_sat}")
     print(f"Empresas suspeitas: {empresas_sus}")
 
 #procedimento para penalizar uma empresa
 def penalizar_empresa()-> None:
     #obtem a empresa
-    empresa = input("empresa: ")
+    empresa = input("Empresa: ")
 
     #força o usuário a digitar uma empreswa cadastrada
     while obter_empresa(empresa) == None:
-        print("ERRO!!! empresa não existe")
+        print("ERRO!!! Empresa não existe")
         empresa = input("Empresa: ")
     
     #declara a variável pontos(será usada mais tarde)
@@ -234,13 +234,13 @@ def penalizar_empresa()-> None:
         #mostra na tela as penalidades
         print("1. Alto risco de colisao                   - 15pts")
         print("2. Geração de lixo espacial                - 15pts")
-        print("3. Satelite sem plano de desorbitação      - 15pts")
+        print("3. Satélite sem plano de desorbitação      - 15pts")
         print("4. Registro orbital irregular              - 20pts")
         print("5. Falta de transparência                  - 25pts")
         print("6. Geração de fragmentos orbitais          - 20pts")
         print("7. Descumprimento regulatório              - 40pts")
         print("8. Uso suspeito da infraestrutura espacial - 40pts")
-        print("9. Satelite inativo em órbita              - 10pts")
+        print("9. Satélite inativo em órbita              - 10pts")
         #verifica qual foi a penalidade escolhida
         escolha = input("Escolha: ")
         match escolha:
@@ -271,7 +271,7 @@ def penalizar_empresa()-> None:
             case '9': 
                 pontos = -10
                 break
-            case _: print("Opçao invalida")
+            case _: print("Opção invalida")
     
     #obrem o objeto empresa com esse nome
     empresa_obj = obter_empresa(empresa)
@@ -285,11 +285,11 @@ def penalizar_empresa()-> None:
 #procedimento para bonificar uma empresa
 def bonificar_empresa()-> None:
     #obtem o nome da empresa
-    empresa = input("empresa: ")
+    empresa = input("Empresa: ")
 
     #força a empresa a ser uma cadastrada
     while obter_empresa(empresa) == None:
-        print("ERRO!!! empresa não existe")
+        print("ERRO!!! Empresa não existe")
         empresa = input("Empresa: ")
     
     #declara a variavel pontos
@@ -338,7 +338,7 @@ def bonificar_empresa()-> None:
             case '9': 
                 pontos = 10
                 break
-            case _: print("Opçao invalida")
+            case _: print("Opção invalida")
     #obtem o objeto empresa cadastrado com esse nome
     empresa_obj = obter_empresa(empresa)
 
