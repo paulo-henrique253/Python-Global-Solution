@@ -34,5 +34,5 @@ empresas[1].score = 30
 empresas[2].score = 67
 empresas[0].score = 40
 
-adicionar_satelite("ORBITS-12352", "NASA", "MEO", "Ativo")
-adicionar_satelite("Stratlink-2367", "SpaceX", "LEO", "Ativo")
+adicionar_satelite("ORBITS-12352", "NASA", sat.TipoOrbita.MEDIA, sat.StatusOperacao.ATIVO)
+adicionar_satelite("Stratlink-2367", "SpaceX", sat.TipoOrbita.BAIXA, sat.StatusOperacao.ATIVO)
