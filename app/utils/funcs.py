@@ -8,6 +8,7 @@ import utils.data as data
 from models.empresa import Empresa
 from models.satelite import TipoOrbita
 from models.satelite import StatusOperacao
+from models.satelite import Satelite
 
 #Funcao para pegar uma empresa cadastrada pelo nome
 def obter_empresa(nome_empresa: str) -> Empresa:
@@ -16,6 +17,20 @@ def obter_empresa(nome_empresa: str) -> Empresa:
         if empresa.nome.lower() == nome_empresa.lower():
             return empresa #caso ache uma empresa com esse nome, retorna ela
     return None # Se não encontrar, retorna None
+
+#obter um satélite de uma empresa
+def obter_satelite(nome_satelite: str, nome_empresa: str) -> Satelite:
+    #Obter o objeto empresa
+    empresa = obter_empresa(nome_empresa)
+
+    #percorrer a lista
+    for satelite in empresa.satelites:
+
+        #se o nome do satélite for o nome passado como parametro, retorna o objeto
+        if satelite.nome.lower() == nome_satelite.lower():
+            return satelite
+    return None # se não encontrar nada
+
 
 #procedimento para alterar os pontos de uma empresa de forma segura
 def mudar_pontos(empresa: Empresa, pontos: int) -> None:
@@ -40,7 +55,7 @@ def consultar_empresa() -> None:
         return #Interrompe o procedimento
     
     #Exibe o nome e os pontos da empresa
-    print(f"{empresa.nome} - {empresa.score}")
+    print(f"{empresa.nome} - score: {empresa.score}")
 
     #Obtem a resposto usuário 
     resp = input("Gostaria de ver os satélites registrados(s/n): ").lower()
@@ -65,7 +80,7 @@ def cadastrar_empresa() -> None:
         if nome_empresa == "":
             print("ERRO!!! Insira um nome")
         else:
-            print("ERRO!!! empresa ja cadastrada")
+            print("ERRO!!! Empresa ja cadastrada")
         nome_empresa = input("Nome: ")
 
     #input do pais
@@ -73,7 +88,7 @@ def cadastrar_empresa() -> None:
 
     #Força o input de um pais não nulo
     while pais_empresa == "":
-        print("ERRO!!! Insira uma empresa")
+        print("ERRO!!! Insira um país")
         pais_empresa = input("Pais: ")
     
     #adiciona a empresa com as informacoes
@@ -97,14 +112,6 @@ def eh_status(info) -> bool:
 #Procedimento para cadastrar satélite
 def cadastrar_satelite() -> None:
 
-    #input para o nome do satélite
-    nome_satelite = input("Nome: ")
-
-    #força o nome a ser diferente de uma string vazia
-    while nome_satelite == "":
-        print("ERRO!!! Insira um nome")
-        nome_satelite = input("Nome: ")
-    
     #input para a empresa do satélite
     nome_empresa = input("Empresa: ")
 
@@ -112,6 +119,19 @@ def cadastrar_satelite() -> None:
     while obter_empresa(nome_empresa) == None:
         print("ERRO!!! Insira uma empresa cadastrada")
         nome_empresa = input("Empresa: ")
+
+    #input para o nome do satélite
+    nome_satelite = input("Nome: ")
+
+    #força o nome a ser diferente de uma string vazia
+    while nome_satelite == "" or obter_satelite(nome_satelite, nome_empresa) != None:
+        if nome_satelite == "":
+            print("ERRO!!! Insira um nome")
+        else:
+            print("ERRO!!! Satélite já cadastrado nessa emrpesa!")
+        nome_satelite = input("Nome: ")
+    
+    
     
     #Declara a variavel da orbita
     orbita_satelite = ""
@@ -119,12 +139,12 @@ def cadastrar_satelite() -> None:
     #até o usuário digitar uma órbita válida..
     while not eh_orbita(orbita_satelite):
         #mostra as órbitas na tela
-        print("\ninsira o tipo de órbita(uma dentre as seguintes)")
+        print("\nInsira o tipo de órbita(uma dentre as seguintes)")
         for orb in TipoOrbita:
             print('\n' + orb.value, end="")
         print()
         #obtem o input da orbita
-        orbita_satelite = input("Orbita(insira o valor completo): ")
+        orbita_satelite = input("Órbita(insira o valor completo): ").lower()
     
     #Declara a variavel do status
     status_satelite = ""
@@ -132,12 +152,12 @@ def cadastrar_satelite() -> None:
     #até o usuário digitar um status valido...
     while not eh_status(status_satelite):
         #mostra os status na tela
-        print("insira o tipo de status:")
+        print("Insira o tipo de status:")
         for status in StatusOperacao:
             print( '\n' + status.value, end="")
         print()
         #obtem o input do status
-        status_satelite = input("Status(insira o valor completo): ")
+        status_satelite = input("Status(Insira o valor completo): ").lower()
 
     #adiciona o satelite na lista
     data.adicionar_satelite(nome_satelite, nome_empresa, orbita_satelite, status_satelite)
@@ -146,15 +166,15 @@ def cadastrar_satelite() -> None:
 def ranking_score() -> None:
     #Declara 3 objetos que guardaram as 3 maiores informações
     m1 = {
-        "nome": "",
+        "Nome": "",
         "pts": -1 
     }
     m2 = {
-        "nome": "",
+        "Nome": "",
         "pts": -1 
     }
     m3 = {
-        "nome": "",
+        "Nome": "",
         "pts": -1 
     }
     #percorre a lista de empresas
@@ -166,7 +186,7 @@ def ranking_score() -> None:
             m3 = m2.copy()
             m2 = m1.copy()
             m1 = {
-                "nome": empresa.nome,
+                "Nome": empresa.nome,
                 "pts" : empresa.score
             }
         #Se não, verifica se é maior que m2, e se sim,
@@ -174,27 +194,27 @@ def ranking_score() -> None:
         elif empresa.score > m2["pts"]:
             m3 = m2.copy()
             m2 = {
-                "nome": empresa.nome,
+                "Nome": empresa.nome,
                 "pts" : empresa.score
             }
         #se não, verifica se é maior que me, e se for, guarda as informacoes em m3
         elif empresa.score > m3["pts"]:
             m3 = {
-                "nome": empresa.nome,
+                "Nome": empresa.nome,
                 "pts" : empresa.score
             }
     
     #se não for vazio, exibe na tela
-    if (m1['nome'] != ""):
-        print(f"1. {m1['nome']} - {m1["pts"]}")
+    if (m1['Nome'] != ""):
+        print(f"1. {m1['Nome']} - {m1['pts']}")
 
     #se não for vazio, exibe na tela
-    if (m2['nome'] != ""):
-        print(f"2. {m2['nome']} - {m2["pts"]}")
+    if (m2['Nome'] != ""):
+        print(f"2. {m2['Nome']} - {m2['pts']}")
 
     #se não for vazio, exibe na tela
-    if (m3['nome'] != ""):
-        print(f"3. {m3['nome']} - {m3["pts"]}")
+    if (m3['Nome'] != ""):
+        print(f"3. {m3['Nome']} - {m3['pts']}")
 
 
 #procedimento para mostrar informacoes gerais
@@ -214,33 +234,35 @@ def relatorio_geral()-> None:
             empresas_sus +=1
 
     #Exibe as informações
-    print(f"Numero de empresas: {num_empresas}")
-    print(f"Numero de satelites: {num_sat}")
+    print(f"Número de empresas: {num_empresas}")
+    print(f"Número de satelites: {num_sat}")
     print(f"Empresas suspeitas: {empresas_sus}")
 
 #procedimento para penalizar uma empresa
 def penalizar_empresa()-> None:
     #obtem a empresa
-    empresa = input("empresa: ")
+    empresa = input("Empresa: ")
 
     #força o usuário a digitar uma empreswa cadastrada
     while obter_empresa(empresa) == None:
-        print("ERRO!!! empresa não existe")
+        print("ERRO!!! Empresa não existe")
         empresa = input("Empresa: ")
     
     #declara a variável pontos(será usada mais tarde)
     pontos = 0
     while True:
         #mostra na tela as penalidades
-        print("1. Alto risco de colisao                   - 15pts")
-        print("2. Geração de lixo espacial                - 15pts")
-        print("3. Satelite sem plano de desorbitação      - 15pts")
-        print("4. Registro orbital irregular              - 20pts")
-        print("5. Falta de transparência                  - 25pts")
-        print("6. Geração de fragmentos orbitais          - 20pts")
-        print("7. Descumprimento regulatório              - 40pts")
-        print("8. Uso suspeito da infraestrutura espacial - 40pts")
-        print("9. Satelite inativo em órbita              - 10pts")
+        print("""
+                1. Alto risco de colisao                   - 15pts
+                2. Geração de lixo espacial                - 15pts
+                3. Satélite sem plano de desorbitação      - 15pts
+                4. Registro orbital irregular              - 20pts
+                5. Falta de transparência                  - 25pts
+                6. Geração de fragmentos orbitais          - 20pts
+                7. Descumprimento regulatório              - 40pts
+                8. Uso suspeito da infraestrutura espacial - 40pts
+                9. Satélite inativo em órbita              - 10pts
+              """)
         #verifica qual foi a penalidade escolhida
         escolha = input("Escolha: ")
         match escolha:
@@ -271,7 +293,7 @@ def penalizar_empresa()-> None:
             case '9': 
                 pontos = -10
                 break
-            case _: print("Opçao invalida")
+            case _: print("Opção invalida")
     
     #obrem o objeto empresa com esse nome
     empresa_obj = obter_empresa(empresa)
@@ -285,27 +307,29 @@ def penalizar_empresa()-> None:
 #procedimento para bonificar uma empresa
 def bonificar_empresa()-> None:
     #obtem o nome da empresa
-    empresa = input("empresa: ")
+    empresa = input("Empresa: ")
 
     #força a empresa a ser uma cadastrada
     while obter_empresa(empresa) == None:
-        print("ERRO!!! empresa não existe")
+        print("ERRO!!! Empresa não existe")
         empresa = input("Empresa: ")
     
     #declara a variavel pontos
     pontos = 0
     while True:
         #exibe as opções na tela
-        print("1. Desorbitação resonsável                - 20pts")
-        print("2. Baixo risco de colisão                 - 15pts")
-        print("3. Satélite ativo e regularizado          - 10pts")
-        print("4. Plano de mitigação aprovado            - 25pts")
-        print("5. Baixa geração de lixo espacial         - 20pts")
-        print("6. Registro orbital regular               - 10pts")
-        print("7. Transparencia de dados                 - 15pts")
-        print("8. Participação em iniciativa sustentável - 30pts")
-        print("9. Conformidade regulatória               - 10pts")
-        
+        print("""
+                1. Desorbitação resonsável                - 20pts
+                2. Baixo risco de colisão                 - 15pts
+                3. Satélite ativo e regularizado          - 10pts
+                4. Plano de mitigação aprovado            - 25pts
+                5. Baixa geração de lixo espacial         - 20pts
+                6. Registro orbital regular               - 10pts
+                7. Transparencia de dados                 - 15pts
+                8. Participação em iniciativa sustentável - 30pts
+                9. Conformidade regulatória               - 10pts
+            """)
+
         #obtem a escolha do usuário
         escolha = input("Escolha: ")
 
@@ -338,7 +362,7 @@ def bonificar_empresa()-> None:
             case '9': 
                 pontos = 10
                 break
-            case _: print("Opçao invalida")
+            case _: print("Opção invalida")
     #obtem o objeto empresa cadastrado com esse nome
     empresa_obj = obter_empresa(empresa)
 
@@ -353,10 +377,7 @@ def descricao_solucao() -> None:
     print("""
 ===== CONHEÇA A ORBITS =====
           
-          blablablablablablabla
-          blablablablablablabla
-          blablablablablablabla
-          blablablablablablabla
-          blablablablablablabla
+A Orbits é uma plataforma pública de transparência e governança da economia espacial que centraliza informações sobre o espaço. Utilizamos os dados das diversas empresas do ecossistema espacial para criar um ambiente de monitoramento de suas ações, tornando capaz que monitore satélites ativos e empresas cadastradas. Utilizamos um score para as empresas que pode varias caso suas ações sejam positivas ou negativas para o meio ambiente. Nosso objetivo é tornar o espaço um lugar seguro e com impactos positivos no futuro da humanidade, livre da exploração indevida.
+
           
           """)
