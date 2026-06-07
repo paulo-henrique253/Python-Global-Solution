@@ -232,15 +232,17 @@ def penalizar_empresa()-> None:
     pontos = 0
     while True:
         #mostra na tela as penalidades
-        print("1. Alto risco de colisao                   - 15pts")
-        print("2. Geração de lixo espacial                - 15pts")
-        print("3. Satélite sem plano de desorbitação      - 15pts")
-        print("4. Registro orbital irregular              - 20pts")
-        print("5. Falta de transparência                  - 25pts")
-        print("6. Geração de fragmentos orbitais          - 20pts")
-        print("7. Descumprimento regulatório              - 40pts")
-        print("8. Uso suspeito da infraestrutura espacial - 40pts")
-        print("9. Satélite inativo em órbita              - 10pts")
+        print("""
+                1. Alto risco de colisao                   - 15pts
+                2. Geração de lixo espacial                - 15pts
+                3. Satélite sem plano de desorbitação      - 15pts
+                4. Registro orbital irregular              - 20pts
+                5. Falta de transparência                  - 25pts
+                6. Geração de fragmentos orbitais          - 20pts
+                7. Descumprimento regulatório              - 40pts
+                8. Uso suspeito da infraestrutura espacial - 40pts
+                9. Satélite inativo em órbita              - 10pts
+              """)
         #verifica qual foi a penalidade escolhida
         escolha = input("Escolha: ")
         match escolha:
