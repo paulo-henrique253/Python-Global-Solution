@@ -163,7 +163,9 @@ def descricao_solucao() -> None:
     print("""
 ===== CONHEÇA A ORBITS =====
           
-A Orbits é uma plataforma pública de transparência e governança da economia espacial que centraliza informações sobre o espaço. Utilizamos os dados das diversas empresas do ecossistema espacial para criar um ambiente de monitoramento de suas ações, tornando capaz que monitore satélites ativos e empresas cadastradas. Utilizamos um score para as empresas que pode varias caso suas ações sejam positivas ou negativas para o meio ambiente. Nosso objetivo é tornar o espaço um lugar seguro e com impactos positivos no futuro da humanidade, livre da exploração indevida.
+A Orbits é uma plataforma pública de transparência e governança da economia espacial que centraliza informações sobre agentes, iniciativas e ativos espaciais.
+
+A plataforma reúne dados sobre os agentes espaciais e transforma essas informações em indicadores de confiança e sustentabilidade que permitem compreender quem está atuando no espaço, como está atuando e quais impactos suas atividades geram.
 
           
           """)
