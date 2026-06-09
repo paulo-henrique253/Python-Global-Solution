@@ -1,10 +1,12 @@
 #region import
 import sys
 import os
+from enum import Enum
 
 sys.path.append(
     os.path.abspath("./app")
 )
+
 import utils.data as data
 from models.empresa import Empresa
 from models.empresa import AcaoPontuada
@@ -17,6 +19,7 @@ from models.satelite import StatusOperacao
 from models.satelite import Satelite
 
 #endregion import
+
 
 #region input
 # =====================
@@ -75,60 +78,78 @@ def ler_nome_satelite_novo(nome_empresa : str) -> str:
     return nome_satelite
 
 
-def ler_orbita() -> str:
+#funcao para obter um enum a partir de um input
+def ler_enum(enum_class: type[Enum], msg="", end='\n') -> Enum:
 
-    #inicializa a variavel vazia
-    orbita = ""
+    opcoes = list(enum_class)
 
-    #até o usuário digitar uma órbita válida..
-    while not eh_orbita(orbita):
+    #até o usuário digitar uma opcao no enum...
+    while True:
 
-        #mostra as órbitas na tela
-        print("\nInsira o tipo de órbita(uma dentre as seguintes)\n")
-        for orb in TipoOrbita:
-            print(orb.value)
+        print(msg, end=end)
+        #exibir as opções na tela
+        exibir_enum(enum_class)
 
-        #obtem o input da orbita
-        orbita = input("Órbita(insira o valor completo): ").lower()
-    return orbita
+        #obtem o imput da escolha
+        escolha = input("Escolha: ").lower()
 
-def ler_status_satelite() -> str:
-    #inicializa a variavel
-    status = ""
+        #verifica se é um número
+        if escolha.isdigit():
+            #se for, verifica se esta no tamanho da lista
+            index = int(escolha) - 1
 
-    #até o usuário digitar um status valido...
-    while not eh_status(status):
+            if 0 <= index < len(opcoes):
+                #se sim, retorna a opcao, 
+                return opcoes[index]
+            
+        #se nao, verifica se o usuario digitou um valor
+        elif escolha in [opcao.value.lower() for opcao in opcoes]:
 
-        #mostra os status na tela
-        print("Insira o tipo de status:")
-        for status in StatusOperacao:
-            print( '\n' + status.value, end="")
-        print()
+            #percorre a lista
+            for opcao in opcoes:
 
-        #obtem o input do status
-        status = input("Status(Insira o valor completo): ").lower()
-    return status
+                #retorna onde a escolha
+                if escolha == opcao.value.lower():
+                    return opcao
+        #se nao retornar nada, entao foi uma opcao invalida
+        print("opção inválida")
 
 
-def ler_opcao_enum(enum_class: AcaoPontuada) -> int:
+
+
+def ler_opcao_enum(enum_class: type[AcaoPontuada]) -> int:
+    # declara a lista de opcoes
     opcoes = list(enum_class)
 
     while True:
         print()
 
+        #exibir as opcoes
         exibir_opcao_enum(enum_class)
-
+        
+        #pegar o input do usuário
         escolha = input("\nEscolha: ")
 
+        #verifica se é um numero
         if escolha.isdigit():
+
+            #se sim, pega o indice
             indice = int(escolha) - 1
 
+            #verifica se o indice esta entre 0 e o maximo das opcoes
             if 0 <= indice < len(opcoes):
                 return opcoes[indice].pontos
+        
+        #verifica se o usuário digitou diretamente
         elif escolha.lower() in [opcao.descricao.lower() for opcao in opcoes]:
+
+            #percorre a lista
             for opcao in opcoes:
+
+                #quando encontrar, retorna
                 if escolha.lower() == opcao.descricao.lower():
                     return opcao.pontos
+        #se nao retornar nada, opcao invalidades
         print("Opção inválida")
 #endregion input
 
@@ -190,8 +211,13 @@ def exibir_empresas(exibir_sat: bool = False) -> None:
 
         #Exibe as informações da empresa
         exibir_empresa(empresa, exibir_sat)
-        
-def exibir_opcao_enum(enum_class: AcaoPontuada):
+
+def exibir_enum(enum_class: Enum) -> None:
+    opcoes = list(enum_class)
+    for i, opcao in enumerate(opcoes, start=1):
+        print(f"{i}. {opcao.value}")
+
+def exibir_opcao_enum(enum_class: type[AcaoPontuada]) -> None:
     opcoes = list(enum_class)
     for i, opcao in enumerate(opcoes, start=1):
             print(
@@ -308,6 +334,7 @@ def obter_empresa(nome_empresa: str) -> Empresa:
         if empresa.nome.lower() == nome_empresa.lower():
             return empresa #caso ache uma empresa com esse nome, retorna ela
     return None # Se não encontrar, retorna None
+
 # Cadastrar uma empresa
 def cadastrar_empresa() -> None:
     #Input do nome
@@ -329,7 +356,7 @@ def mudar_pontos(empresa: Empresa, pontos: int) -> None:
     if empresa.score > 100: empresa.score = 100    
 
 #procedimento para penalizar uma empresa
-def penalizar_empresa(empresa: Empresa)-> None:
+def penalizar_empresa(empresa: str)-> None:
     
     #declara a variável pontos(será usada mais tarde)
     pontos = ler_opcao_enum(Penalidade)
@@ -341,10 +368,10 @@ def penalizar_empresa(empresa: Empresa)-> None:
     mudar_pontos(empresa_obj, pontos)
 
     #exibe as informações na tela
-    print(f"A empresa {empresa} perdeu {abs(pontos)} pontos. Agora tem {empresa_obj.score}")
+    print(f"A empresa {empresa_obj.nome} perdeu {abs(pontos)} pontos. Agora tem {empresa_obj.score}")
 
 #procedimento para bonificar uma empresa
-def bonificar_empresa(empresa: Empresa)-> None:
+def bonificar_empresa(empresa: str)-> None:
 
     #declara a variavel pontos
     pontos = ler_opcao_enum(Bonificacao)
@@ -355,7 +382,7 @@ def bonificar_empresa(empresa: Empresa)-> None:
     mudar_pontos(empresa_obj , pontos)
 
     #exibe as informações na tela
-    print(f"A empresa {empresa} ganhou {pontos} pontos. Agora tem {empresa_obj.score} pontos")
+    print(f"A empresa {empresa_obj.nome} ganhou {pontos} pontos. Agora tem {empresa_obj.score} pontos")
 
 #endregion empresa
 
@@ -387,31 +414,13 @@ def cadastrar_satelite() -> None:
     nome_satelite = ler_nome_satelite_novo(nome_empresa)
 
     #Declara a variavel da orbita
-    orbita_satelite = ler_orbita()
+    orbita_satelite = ler_enum(TipoOrbita, msg="Insira o Tipo de órbita:")
     
     #Declara a variavel do status
-    status_satelite = ler_status_satelite()
+    status_satelite = ler_enum(StatusOperacao, msg="Insira o status do satélite:")
 
     #adiciona o satelite na lista
     data.adicionar_satelite(nome_satelite, nome_empresa, orbita_satelite, status_satelite)
 
-
-#Função que verifica se um dado é(eh) uma orbita valida
-def eh_orbita(info) -> bool:
-
-    #Se esta na lista de valores do enum TipoOrbita, retorna True
-    if info in [tipo.value for tipo in TipoOrbita]:
-        return True
-    
-    return False
-
-#Função que verifica se um dado é(eh) um status valido para satelite
-def eh_status(info) -> bool:
-
-    #Se esta na lista de valores do enum StatusOperacao, retorna True
-    if info in [status.value for status in StatusOperacao]:
-        return True
-    
-    return False
 
 #endregion satelite
