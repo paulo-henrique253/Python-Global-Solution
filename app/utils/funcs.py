@@ -1,3 +1,4 @@
+#region import
 import sys
 import os
 
@@ -15,9 +16,7 @@ from models.satelite import TipoOrbita
 from models.satelite import StatusOperacao
 from models.satelite import Satelite
 
-
-
-
+#endregion import
 
 #region input
 # =====================
@@ -138,6 +137,16 @@ def ler_opcao_enum(enum_class: AcaoPontuada) -> int:
 # SUBALGS PRINT
 # =====================
 
+#exibe um resumo da solução
+def descricao_solucao() -> None:
+    print("""
+===== CONHEÇA A ORBITS =====
+          
+A Orbits é uma plataforma pública de transparência e governança da economia espacial que centraliza informações sobre o espaço. Utilizamos os dados das diversas empresas do ecossistema espacial para criar um ambiente de monitoramento de suas ações, tornando capaz que monitore satélites ativos e empresas cadastradas. Utilizamos um score para as empresas que pode varias caso suas ações sejam positivas ou negativas para o meio ambiente. Nosso objetivo é tornar o espaço um lugar seguro e com impactos positivos no futuro da humanidade, livre da exploração indevida.
+
+          
+          """)
+
 #exibe um unico sátelite formatadinho
 def exibir_satelite(satelite: Satelite) -> None:
         print(f"\t{satelite.nome:>21} | Tipo de órbita: {satelite.orbita.value:15} | Status: {satelite.status}")
@@ -189,42 +198,6 @@ def exibir_opcao_enum(enum_class: AcaoPontuada):
                 f"{i}. {opcao.descricao:<40}"
                 f"{opcao.pontos:+} pts"
             )
-#endregion print
-
-#Funcao para pegar uma empresa cadastrada pelo nome
-def obter_empresa(nome_empresa: str) -> Empresa:
-    # Percorrer a lista
-    for empresa in data.empresas:
-        if empresa.nome.lower() == nome_empresa.lower():
-            return empresa #caso ache uma empresa com esse nome, retorna ela
-    return None # Se não encontrar, retorna None
-
-#obter um satélite de uma empresa
-def obter_satelite(nome_satelite: str, nome_empresa: str) -> Satelite:
-    #Obter o objeto empresa
-    empresa = obter_empresa(nome_empresa)
-
-    #percorrer a lista
-    for satelite in empresa.satelites:
-
-        #se o nome do satélite for o nome passado como parametro, retorna o objeto
-        if satelite.nome.lower() == nome_satelite.lower():
-            return satelite
-    return None # se não encontrar nada
-
-
-#procedimento para alterar os pontos de uma empresa de forma segura
-def mudar_pontos(empresa: Empresa, pontos: int) -> None:
-    empresa.score += pontos
-
-    #Não permite o score de uma empresa ser maior que 100 ou menor que 0
-    if empresa.score < 0: empresa.score = 0
-    if empresa.score > 100: empresa.score = 100    
-
-
-
-
-
 
 
 #procedimento para permitir que o usuário encontre uma empresa e veja suas informações
@@ -245,55 +218,6 @@ def consultar_empresa(nome_empresa: str) -> None:
     resp = input("Gostaria de ver os satélites registrados(s/n): ").lower()
     if resp == 's' or resp == "sim":     
         exibir_satelites(empresa)
-        
-
-# Cadastrar uma empresa
-def cadastrar_empresa() -> None:
-    #Input do nome
-    nome_empresa = ler_nome_empresa_nova()
-
-    #input do pais (não nulo)
-    pais_empresa = ler_input_obrigatorio("Pais: ")
-    
-    #adiciona a empresa com as informacoes
-    data.adicionar_empresa(nome_empresa, pais_empresa)
-
-#Função que verifica se um dado é(eh) uma orbita valida
-def eh_orbita(info) -> bool:
-
-    #Se esta na lista de valores do enum TipoOrbita, retorna True
-    if info in [tipo.value for tipo in TipoOrbita]:
-        return True
-    
-    return False
-
-#Função que verifica se um dado é(eh) um status valido para satelite
-def eh_status(info) -> bool:
-
-    #Se esta na lista de valores do enum StatusOperacao, retorna True
-    if info in [status.value for status in StatusOperacao]:
-        return True
-    
-    return False
-
-
-#Procedimento para cadastrar satélite
-def cadastrar_satelite() -> None:
-
-    #input para a empresa do satélite
-    nome_empresa = ler_nome_empresa_cadastrada()
-
-    #input para o nome do satélite
-    nome_satelite = ler_nome_satelite_novo(nome_empresa)
-
-    #Declara a variavel da orbita
-    orbita_satelite = ler_orbita()
-    
-    #Declara a variavel do status
-    status_satelite = ler_status_satelite()
-
-    #adiciona o satelite na lista
-    data.adicionar_satelite(nome_satelite, nome_empresa, orbita_satelite, status_satelite)
 
 #Procedimento para exibir as 3 empresas mais bem rankeadas
 def ranking_score() -> None:
@@ -371,6 +295,39 @@ def relatorio_geral()-> None:
     print(f"Número de satelites: {num_sat}")
     print(f"Empresas suspeitas: {empresas_sus}")
 
+#endregion print
+
+#region empresa
+# =====================
+# SUBALGS EMPRESAS
+# =====================
+#Funcao para pegar uma empresa cadastrada pelo nome
+def obter_empresa(nome_empresa: str) -> Empresa:
+    # Percorrer a lista
+    for empresa in data.empresas:
+        if empresa.nome.lower() == nome_empresa.lower():
+            return empresa #caso ache uma empresa com esse nome, retorna ela
+    return None # Se não encontrar, retorna None
+# Cadastrar uma empresa
+def cadastrar_empresa() -> None:
+    #Input do nome
+    nome_empresa = ler_nome_empresa_nova()
+
+    #input do pais (não nulo)
+    pais_empresa = ler_input_obrigatorio("Pais: ")
+    
+    #adiciona a empresa com as informacoes
+    data.adicionar_empresa(nome_empresa, pais_empresa)
+
+
+#procedimento para alterar os pontos de uma empresa de forma segura
+def mudar_pontos(empresa: Empresa, pontos: int) -> None:
+    empresa.score += pontos
+
+    #Não permite o score de uma empresa ser maior que 100 ou menor que 0
+    if empresa.score < 0: empresa.score = 0
+    if empresa.score > 100: empresa.score = 100    
+
 #procedimento para penalizar uma empresa
 def penalizar_empresa(empresa: Empresa)-> None:
     
@@ -400,12 +357,61 @@ def bonificar_empresa(empresa: Empresa)-> None:
     #exibe as informações na tela
     print(f"A empresa {empresa} ganhou {pontos} pontos. Agora tem {empresa_obj.score} pontos")
 
+#endregion empresa
 
-def descricao_solucao() -> None:
-    print("""
-===== CONHEÇA A ORBITS =====
-          
-A Orbits é uma plataforma pública de transparência e governança da economia espacial que centraliza informações sobre o espaço. Utilizamos os dados das diversas empresas do ecossistema espacial para criar um ambiente de monitoramento de suas ações, tornando capaz que monitore satélites ativos e empresas cadastradas. Utilizamos um score para as empresas que pode varias caso suas ações sejam positivas ou negativas para o meio ambiente. Nosso objetivo é tornar o espaço um lugar seguro e com impactos positivos no futuro da humanidade, livre da exploração indevida.
+#region satelite
+# =====================
+# SUBALGS satélites
+# =====================
 
-          
-          """)
+#obter um satélite de uma empresa
+def obter_satelite(nome_satelite: str, nome_empresa: str) -> Satelite:
+    #Obter o objeto empresa
+    empresa = obter_empresa(nome_empresa)
+
+    #percorrer a lista
+    for satelite in empresa.satelites:
+
+        #se o nome do satélite for o nome passado como parametro, retorna o objeto
+        if satelite.nome.lower() == nome_satelite.lower():
+            return satelite
+    return None # se não encontrar nada
+
+#Procedimento para cadastrar satélite
+def cadastrar_satelite() -> None:
+
+    #input para a empresa do satélite
+    nome_empresa = ler_nome_empresa_cadastrada()
+
+    #input para o nome do satélite
+    nome_satelite = ler_nome_satelite_novo(nome_empresa)
+
+    #Declara a variavel da orbita
+    orbita_satelite = ler_orbita()
+    
+    #Declara a variavel do status
+    status_satelite = ler_status_satelite()
+
+    #adiciona o satelite na lista
+    data.adicionar_satelite(nome_satelite, nome_empresa, orbita_satelite, status_satelite)
+
+
+#Função que verifica se um dado é(eh) uma orbita valida
+def eh_orbita(info) -> bool:
+
+    #Se esta na lista de valores do enum TipoOrbita, retorna True
+    if info in [tipo.value for tipo in TipoOrbita]:
+        return True
+    
+    return False
+
+#Função que verifica se um dado é(eh) um status valido para satelite
+def eh_status(info) -> bool:
+
+    #Se esta na lista de valores do enum StatusOperacao, retorna True
+    if info in [status.value for status in StatusOperacao]:
+        return True
+    
+    return False
+
+#endregion satelite
